@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.7.0)
 project(qm
     VERSION 0.1.0
-    DESCRIPTION "Quantitative Fixed-point (Q36.18) Arithmetic Library"
+    DESCRIPTION "Quantitative Fixed-point (D36.18) Arithmetic Library"
     HOMEPAGE_URL "https://github.com/aslrousta/libqm"
     LANGUAGES C)
 

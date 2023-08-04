@@ -11,10 +11,13 @@ typedef struct qnum {
   uint32_t data[4];
 } qnum_t;
 
-qnum_t qm_add(qnum_t a, qnum_t b);
-qnum_t qm_sub(qnum_t a, qnum_t b);
-qnum_t qm_mul(qnum_t a, qnum_t b);
-qnum_t qm_div(qnum_t a, qnum_t b);
+int qm_sign(const qnum_t *a);
+int qm_cmp(const qnum_t *a, const qnum_t *b);
+
+qnum_t qm_abs(const qnum_t *a);
+qnum_t qm_neg(const qnum_t *a);
+qnum_t qm_add(const qnum_t *a, const qnum_t *b);
+qnum_t qm_sub(const qnum_t *a, const qnum_t *b);
 
 #if defined(__cplusplus)
 }
