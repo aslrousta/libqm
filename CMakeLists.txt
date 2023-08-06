@@ -11,7 +11,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 if(MSVC)
     add_compile_options(/W4 /WX)
 else()
-    add_compile_options(-Wall -Wextra -Werror -Wpedantic)
+    add_compile_options(-Wall -Wextra -Werror -Wpedantic -Wno-gnu-zero-variadic-macro-arguments)
 endif()
 
 file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c)
@@ -31,3 +31,7 @@ install(TARGETS ${PROJECT_NAME}
 configure_file(libqm.pc.in libqm.pc @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/libqm.pc
     DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
+
+include(CTest)
+enable_testing()
+add_subdirectory(tests)
