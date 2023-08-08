@@ -93,20 +93,19 @@ qnum_t qm_from_double(double v) {
 }
 
 void qm_to_str(const qnum_t *a, char *buf, int len) {
-  char s[38];
-  char *begin = s;
-  char *end = s + sizeof(s) - 1;
-
   if (qm_is_zero(a))
     strncpy(buf, "0", len);
   else if (qm_is_inf(a))
     strncpy(buf, qm_sign(a) < 0 ? "-inf" : "inf", len);
   else {
-    sprintf(s, "%09d%09d.%09d%09d", (a->data[0] & ~SIGN_BIT), a->data[1],
-            a->data[2], a->data[3]);
+    char s[38];
+    char *begin = s;
+    char *end = s + sizeof(s) - 1;
+    qnum_t n = qm_abs(*a);
+
+    sprintf(s, "%09d%09d.%09d%09d", n.data[0], n.data[1], n.data[2], n.data[3]);
     while (*begin == '0' && *(begin + 1) != '.') begin++;
-    while (*(end - 1) == '0' || *(end - 1) == '.') end--;
-    *end = '\0';
+    while (*(end - 1) == '0' || *(end - 1) == '.') *(--end) = '\0';
     if (qm_sign(a) < 0) strncpy(buf++, "-", len--);
     strncpy(buf, begin, len);
   }
