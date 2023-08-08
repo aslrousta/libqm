@@ -4,13 +4,17 @@
 
 static qnum_t zero;
 static qnum_t one;
+static qnum_t two;
 static qnum_t minus_one;
+static qnum_t minus_two;
 static qnum_t pi;
 
 static void simple_setup(void) {
   zero = qm_from_int(0);
   one = qm_from_int(1);
+  two = qm_from_int(2);
   minus_one = qm_from_int(-1);
+  minus_two = qm_from_int(-2);
   pi = qm_from_double(M_PI);
 }
 
@@ -24,13 +28,17 @@ END_TEST
 START_TEST(cmp_returns_correct_order) {
   ck_assert_int_eq(qm_cmp(&zero, &zero), 0);
   ck_assert_int_eq(qm_cmp(&one, &one), 0);
-  ck_assert_int_eq(qm_cmp(&one, &one), 0);
+  ck_assert_int_eq(qm_cmp(&minus_one, &minus_one), 0);
+  ck_assert_int_eq(qm_cmp(&two, &one), 1);
+  ck_assert_int_eq(qm_cmp(&one, &two), -1);
   ck_assert_int_eq(qm_cmp(&one, &zero), 1);
   ck_assert_int_eq(qm_cmp(&zero, &one), -1);
   ck_assert_int_eq(qm_cmp(&one, &minus_one), 1);
   ck_assert_int_eq(qm_cmp(&minus_one, &one), -1);
   ck_assert_int_eq(qm_cmp(&zero, &minus_one), 1);
   ck_assert_int_eq(qm_cmp(&minus_one, &zero), -1);
+  ck_assert_int_eq(qm_cmp(&minus_one, &minus_two), 1);
+  ck_assert_int_eq(qm_cmp(&minus_two, &minus_one), -1);
 }
 END_TEST
 

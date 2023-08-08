@@ -32,10 +32,16 @@ int qm_cmp(const qnum_t *a, const qnum_t *b) {
   if (!memcmp(a, b, sizeof(qnum_t))) return 0;
   if (qm_sign(a) > qm_sign(b)) return 1;
   if (qm_sign(a) < qm_sign(b)) return -1;
-  if (qm_sign(a) < 0) return qm_cmp(b, a);
-  for (int i = 3; i >= 0; i--) {
-    if (a->data[i] > b->data[i]) return 1;
-    if (a->data[i] < b->data[i]) return -1;
+  if (qm_sign(a) < 0) {
+    for (int i = 0; i < 4; i++) {
+      if (a->data[i] > b->data[i]) return -1;
+      if (a->data[i] < b->data[i]) return 1;
+    }
+  } else {
+    for (int i = 0; i < 4; i++) {
+      if (a->data[i] > b->data[i]) return 1;
+      if (a->data[i] < b->data[i]) return -1;
+    }
   }
   return 0;
 }
