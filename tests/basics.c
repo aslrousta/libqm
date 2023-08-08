@@ -35,9 +35,9 @@ START_TEST(cmp_returns_correct_order) {
 END_TEST
 
 START_TEST(abs_returns_correct_absolute_number) {
-  qnum_t zero_ = qm_abs(&zero);
-  qnum_t one_ = qm_abs(&one);
-  qnum_t minus_one_ = qm_abs(&minus_one);
+  qnum_t zero_ = qm_abs(zero);
+  qnum_t one_ = qm_abs(one);
+  qnum_t minus_one_ = qm_abs(minus_one);
 
   ck_assert_mem_eq(&zero, &zero_, sizeof(qnum_t));
   ck_assert_mem_eq(&one, &one_, sizeof(qnum_t));
