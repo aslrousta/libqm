@@ -65,30 +65,31 @@ qnum_t qm_neg(qnum_t a) {
 }
 
 qnum_t qm_from_int(int v) {
-  qnum_t r;
+  qnum_t r = {.data = {0, 0, 0, 0}};
   int is_neg = v < 0;
 
   if (is_neg) v = -v;
   r.data[0] = v / 1000000000;
   r.data[1] = v % 1000000000;
-  r.data[2] = 0;
-  r.data[3] = 0;
   return is_neg ? qm_neg(r) : r;
 }
 
-qnum_t qm_from_double(double v) {
-  qnum_t r;
-  int is_neg = v < 0;
+qnum_t qm_from_str(const char *s) {
+  qnum_t r = {.data = {0, 0, 0, 0}};
+  const char *d = strchr(s, '.');
+  int is_neg = *s == '-';
 
-  if (is_neg) v = -v;
-  if (v >= 1e18)
-    r = INF;
-  else {
-    r.data[0] = (uint32_t)floor(v * 1e-9);
-    r.data[1] = (uint32_t)floor(fmod(v, 1e9));
-    r.data[2] = (uint32_t)floor(fmod(v * 1e9, 1e9));
-    r.data[3] = (uint32_t)floor(fmod(v * 1e18, 1e9));
-  }
+  if (!d) d = s + strlen(s);
+  if (is_neg) s++;
+
+  while (s < d - 9) r.data[0] = r.data[0] * 10 + (*s++ - '0');
+  while (s < d) r.data[1] = r.data[1] * 10 + (*s++ - '0');
+
+  s++; /* skip dot */
+  while (*s && s <= d + 9) r.data[2] = r.data[2] * 10 + (*s++ - '0');
+  while (*s && s < d + 18) r.data[3] = r.data[3] * 10 + (*s++ - '0');
+  while (s <= d + 9) r.data[2] *= 10, s++;
+  while (s <= d + 18) r.data[3] *= 10, s++;
   return is_neg ? qm_neg(r) : r;
 }
 
@@ -103,13 +104,13 @@ void qm_to_str(const qnum_t *a, char *buf, int len) {
     char *end = s + sizeof(s) - 1;
     qnum_t n = qm_abs(*a);
 
+    if (qm_sign(a) < 0) strncpy(buf++, "-", len--);
     sprintf(s, "%09d%09d.%09d%09d", n.data[0], n.data[1], n.data[2], n.data[3]);
     while (*begin == '0' && *(begin + 1) != '.') begin++;
     while (*(end - 1) == '0' || *(end - 1) == '.') *(--end) = '\0';
-    if (qm_sign(a) < 0) strncpy(buf++, "-", len--);
     strncpy(buf, begin, len);
+    buf[len - 1] = '\0';
   }
-  buf[len - 1] = '\0';
 }
 
 qnum_t qm_add(qnum_t a, qnum_t b) {

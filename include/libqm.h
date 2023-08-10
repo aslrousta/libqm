@@ -21,7 +21,7 @@ int qm_is_inf(const qnum_t *a);
 qnum_t qm_abs(qnum_t a);
 qnum_t qm_neg(qnum_t a);
 qnum_t qm_from_int(int v);
-qnum_t qm_from_double(double v);
+qnum_t qm_from_str(const char *s);
 
 void qm_to_str(const qnum_t *a, char *buf, int len);
 

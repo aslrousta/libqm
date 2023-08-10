@@ -15,7 +15,7 @@ static void simple_setup(void) {
   two = qm_from_int(2);
   minus_one = qm_from_int(-1);
   minus_two = qm_from_int(-2);
-  pi = qm_from_double(M_PI);
+  pi = qm_from_str("3.14159265358979323");
 }
 
 START_TEST(sign_returns_correct_number_sign) {
@@ -43,13 +43,13 @@ START_TEST(cmp_returns_correct_order) {
 END_TEST
 
 START_TEST(abs_returns_correct_absolute_number) {
-  qnum_t zero_ = qm_abs(zero);
-  qnum_t one_ = qm_abs(one);
-  qnum_t minus_one_ = qm_abs(minus_one);
+  qnum_t zero_abs = qm_abs(zero);
+  qnum_t one_abs = qm_abs(one);
+  qnum_t minus_one_abs = qm_abs(minus_one);
 
-  ck_assert_mem_eq(&zero, &zero_, sizeof(qnum_t));
-  ck_assert_mem_eq(&one, &one_, sizeof(qnum_t));
-  ck_assert_mem_eq(&one, &minus_one_, sizeof(qnum_t));
+  ck_assert_mem_eq(&zero, &zero_abs, sizeof(qnum_t));
+  ck_assert_mem_eq(&one, &one_abs, sizeof(qnum_t));
+  ck_assert_mem_eq(&one, &minus_one_abs, sizeof(qnum_t));
 }
 END_TEST
 
@@ -63,7 +63,7 @@ START_TEST(to_str_formats_number_correctly) {
   qm_to_str(&minus_one, buf, 100);
   ck_assert_str_eq("-1", buf);
   qm_to_str(&pi, buf, 100);
-  ck_assert_str_eq("3.14159265358979328", buf);
+  ck_assert_str_eq("3.14159265358979323", buf);
 }
 END_TEST
 
