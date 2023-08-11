@@ -16,6 +16,10 @@
  *      +-------------+-------------+-------------+-------------+
  */
 
+const int QM_FLAG_NEG = 1;
+const int QM_FLAG_INF = 2;
+const int QM_FLAG_NAN = 4;
+
 static const qnum_t ZERO = {.flag = 0, .data = {0, 0, 0, 0}};
 static const qnum_t INF = {.flag = QM_FLAG_INF, .data = {0, 0, 0, 0}};
 static const qnum_t NaN = {.flag = QM_FLAG_NAN, .data = {0, 0, 0, 0}};

@@ -8,10 +8,6 @@
 extern "C" {
 #endif
 
-const int QM_FLAG_NEG = 1; /** Marks a negative number */
-const int QM_FLAG_INF = 2; /** Marks an infinity */
-const int QM_FLAG_NAN = 4; /** Marks a not-a-number */
-
 typedef struct qnum {
   int flag;
   uint32_t data[4];
