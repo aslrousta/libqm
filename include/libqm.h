@@ -8,15 +8,22 @@
 extern "C" {
 #endif
 
+const int QM_FLAG_NEG = 1; /** Marks a negative number */
+const int QM_FLAG_INF = 2; /** Marks an infinity */
+const int QM_FLAG_NAN = 4; /** Marks a not-a-number */
+
 typedef struct qnum {
+  int flag;
   uint32_t data[4];
 } qnum_t;
 
 int qm_sign(const qnum_t *a);
 int qm_cmp(const qnum_t *a, const qnum_t *b);
 int qm_equal(const qnum_t *a, const qnum_t *b);
+
 int qm_is_zero(const qnum_t *a);
 int qm_is_inf(const qnum_t *a);
+int qm_is_nan(const qnum_t *a);
 
 qnum_t qm_abs(qnum_t a);
 qnum_t qm_neg(qnum_t a);
